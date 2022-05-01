@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="mapper.board">
+	<insert id="boardWrite" parameterType="java.util.Map">
+		INSERT INTO board (userName, title, content, regDate)
+					VALUES(#{userName}, #{title}, #{content}, NOW())
+	</insert>
+	<select id="boardList" parameterType="int" resultType="com.project.board.mvc.vo.BoardVO">
+		SELECT seq, userName, title, content, regDate
+		FROM board
+		ORDER BY seq desc
+		LIMIT #{startPage}, #{size}
+	</select>
+	<select id="boardListCnt" resultType="int">
+		SELECT count(*)
+		FROM board
+		WHERE deleteYN = 1
+	</select>
+	<select id="boardDetail" parameterType="int" resultType="com.project.board.mvc.vo.BoardVO">
+		SELECT seq, userName, title, content, regDate
+		FROM board
+		WHERE seq = #{no} and deleteYN = 1
+	</select>
+	<update id="boardReadCnt" parameterType="int">
+		UPDATE board
+		SET readCnt = readCnt + 1
+		WHERE seq = #{no}
+	</update>
+	<update id="boardUpdate" parameterType="java.util.Map">
+		UPDATE board
+		SET userName = #{userName},
+			title = #{title},
+			content = #{content},
+			modDate = now()
+		WHERE seq = #{no}
+	</update>
+	<update id="boardDelete" parameterType = "int">
+		UPDATE board
+		SET deleteYN = 0
+		WHERE seq = #{no}
+	</update>
+</mapper>
