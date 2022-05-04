@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block th:each="boardVO:${eduPage.content}">
+	<a th:href="@{/detail(no=${boardVO.seq})}" th:text="${boardVO.title}"></a>
+	<span th:text="${boardVO.userName}"></span>
+	<span th:text="${boardVO.regDate}"></span>
+	<br>
+</th:block>
+</body>
+</html>

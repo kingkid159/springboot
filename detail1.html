@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h2 th:text = "${boardVO.title}"></h2>
+<span th:text = "${boardVO.userName}"></span>
+<pre th:text = "${boardVO.content}"></pre>
+<br>
+<div th:if="${comment != null}">
+	<h4 th:text = "${comment.c_userName}"></h4>
+	<pre th:text = "${comment.c_content}"></pre>
+</div>
+<a th:href="@{/comWriteForm(no=${boardVO.seq})}">댓글</a>
+</body>
+</html>

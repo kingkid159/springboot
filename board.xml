@@ -4,31 +4,37 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="mapper.board">
+	<!-- 작성 -->
 	<insert id="boardWrite" parameterType="java.util.Map">
 		INSERT INTO board (userName, title, content, regDate)
 					VALUES(#{userName}, #{title}, #{content}, NOW())
 	</insert>
+	<!-- 리스트 -->
 	<select id="boardList" parameterType="int" resultType="com.project.board.mvc.vo.BoardVO">
 		SELECT seq, userName, title, content, regDate
 		FROM board
 		ORDER BY seq desc
 		LIMIT #{startPage}, #{size}
 	</select>
+	<!-- 게시판 총 수 -->
 	<select id="boardListCnt" resultType="int">
 		SELECT count(*)
 		FROM board
-		WHERE deleteYN = 1
+		WHERE deleteYN = 0
 	</select>
+	<!-- 상세정보 -->
 	<select id="boardDetail" parameterType="int" resultType="com.project.board.mvc.vo.BoardVO">
 		SELECT seq, userName, title, content, regDate
 		FROM board
-		WHERE seq = #{no} and deleteYN = 1
+		WHERE seq = #{no} and deleteYN = 0
 	</select>
+	<!-- 조회수  -->
 	<update id="boardReadCnt" parameterType="int">
 		UPDATE board
 		SET readCnt = readCnt + 1
 		WHERE seq = #{no}
 	</update>
+	<!-- 수정 -->
 	<update id="boardUpdate" parameterType="java.util.Map">
 		UPDATE board
 		SET userName = #{userName},
@@ -37,9 +43,10 @@
 			modDate = now()
 		WHERE seq = #{no}
 	</update>
+	<!-- 삭제  -->
 	<update id="boardDelete" parameterType = "int">
 		UPDATE board
-		SET deleteYN = 0
+		SET deleteYN = 1
 		WHERE seq = #{no}
 	</update>
 </mapper>
